@@ -3,7 +3,7 @@ const app = express()
 const cors = require('cors')
 const session = require('express-session')
 const passportconfig = require('./routes/userRoutes/passport')
-const port = process.env.PORT || 3000
+const port = process.env.NODE_ENV === "production" ? process.env.PORT || 80 : 4000;
 const config = require('./config/key')
 const routes = require('./routes')
 const mongoose = require('mongoose')
@@ -28,11 +28,7 @@ store.on('error', (err) => {
     console.log(err)
 })
 
-app.use(cors({origin: [
-    "http://localhost:4200",
-    "http://localhost:8100",
-    "http://localhost:8101"
-  ], credentials: true}));
+app.use(cors({credentials: true}));
 
 app.use(session({
     secret: 'studywithmeubitch',
